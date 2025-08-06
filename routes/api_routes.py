@@ -26,6 +26,10 @@ def health_check():
 @cross_origin()
 def reset_all_sheets():
     try:
+
+        password = request.args.get('password')
+        if password != os.getenv('RESET_PASSWORD'):
+            return jsonify({"error": "Invalid password"}), 403
         
         print("Fetching orders from Shopify")
         orders = shopifyHandler.getOrders(start_time=request.args.get('updated_at_min', "2025-04-01T00:00:00Z"),
