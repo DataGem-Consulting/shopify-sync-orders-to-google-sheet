@@ -54,6 +54,7 @@ This endpoint fetches all orders from Shopify within a specified date range, com
 
 **Query Parameters:**
 
+*   `password` (required)
 *   `updated_at_min` (optional): The start date for fetching orders in `YYYY-MM-DDTHH:MM:SSZ` format. Defaults to `2025-04-01T00:00:00Z`.
 *   `updated_at_max` (optional): The end date for fetching orders in `YYYY-MM-DDTHH:MM:SSZ` format. Defaults to the current datetime.
 

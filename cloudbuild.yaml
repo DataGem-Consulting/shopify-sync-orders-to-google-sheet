@@ -62,8 +62,8 @@ steps:
       - "--allow-unauthenticated"
       - "--min-instances=1"
       - "--timeout=3600s"
-      - "--cpu=2"
-      - "--memory=4Gi"
+      - "--cpu=1"
+      - "--memory=1024Mi"
       - "--port=8080"
       - "--max-instances=10"
 
