@@ -109,7 +109,7 @@ class ShopifyHandler():
             'Frais de port': order.get('total_shipping_price_set', {}).get('shop_money', {}).get('amount', '0'),
             'Taxes': order.get('total_tax'),
             'Devise': order.get('currency'),
-            'Client ID': order.get('customer', {}).get('id', ''),
+            'Client ID': str(order.get('customer', {}).get('id', '')),
             'Adresse de livraison': order.get('shipping_address', {}).get('address1', '') + ', ' + order.get('shipping_address', {}).get('city', '') + ', ' + order.get('shipping_address', {}).get('country', '') if order.get('shipping_address') else '',
             'Email': order.get('email', ''),
             'Produits': '\n'.join([item['title'] +f"({item['quantity']}x{item['price']}{item['price_set']['shop_money']['currency_code']})" for item in order.get('line_items', [])])
