@@ -59,7 +59,7 @@ steps:
       - "${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_APP_NAME}:latest"
       - "--region"
       - "${_REGION}"
-      # - "--allow-unauthenticated"
+      - "--allow-unauthenticated"
       - "--min-instances=1"
       - "--timeout=3600s"
       - "--cpu=2"
