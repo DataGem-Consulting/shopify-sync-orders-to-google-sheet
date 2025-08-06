@@ -9,7 +9,6 @@ COPY . /app
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install PyYAML
 
 # Expose the port that the app runs on
 EXPOSE 8080
