@@ -1,0 +1,18 @@
+# Core dependencies
+pandas==1.5.3
+numpy==1.24.2
+
+# Google Cloud dependencies
+google-cloud-bigquery==3.11.4
+google-cloud-storage==2.9.0
+google-cloud-secret-manager==2.23.3
+google-api-python-client
+
+# Authentication and environment management
+google-auth==2.20.0
+python-dotenv==1.0.0
+
+# Flask for web interface
+Flask
+flask-cors
+flask-jwt-extended

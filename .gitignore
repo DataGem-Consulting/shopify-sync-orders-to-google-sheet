@@ -1,0 +1,8 @@
+/var
+**__pycache__**
+.venv/
+*.pyc
+.env
+test.py
+utils/shopifyHandler2.py
+order_test.json
