@@ -14,5 +14,5 @@ class Config:
                         "http://localhost:5173/",
                         "http://localhost:5173/login",
                         "http://localhost:5173/home",
-                        
+                        os.getenv("PRODUCTION_URL", "https://your-production-url.com"),
                       ]
