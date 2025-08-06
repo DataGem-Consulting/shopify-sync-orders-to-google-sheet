@@ -27,7 +27,10 @@ def health_check():
 def reset_all_sheets():
     try:
 
-        password = request.args.get('password')
+        password = request.headers.get('password')
+        fake_insertion = request.args.get('fake_insertion', 'false').lower() == 'true'
+        print(f"Fake insertion: {fake_insertion}")
+        
         if password != os.getenv('RESET_PASSWORD'):
             return jsonify({"error": "Invalid password"}), 403
         
@@ -45,7 +48,7 @@ def reset_all_sheets():
             created_at = datetime.datetime.strptime(created_at, '%Y-%m-%dT%H:%M:%S%z')
             month = created_at.strftime('%Y-%m')
             
-            classified_orders.setdefault(month, []).append(shopifyHandler.parse_order(order))
+            classified_orders.setdefault(month, []).append(shopifyHandler.parse_order(order, fake_insertion=fake_insertion))
 
         # Process classified orders
         for month, orders in classified_orders.items():

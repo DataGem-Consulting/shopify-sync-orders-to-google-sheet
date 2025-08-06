@@ -91,7 +91,7 @@ class ShopifyHandler():
                  "created_at_max":end_time}
         return self.fetchQueryData(object,param)
     
-    def parse_order(self, order : dict) -> dict:
+    def parse_order(self, order : dict, fake_insertion : bool = False) -> dict:
         """
         Parse a Shopify order to a simplified format.
         Args:
@@ -112,5 +112,6 @@ class ShopifyHandler():
             'Client ID': str(order.get('customer', {}).get('id', '')),
             'Adresse de livraison': order.get('shipping_address', {}).get('address1', '') + ', ' + order.get('shipping_address', {}).get('city', '') + ', ' + order.get('shipping_address', {}).get('country', '') if order.get('shipping_address') else '',
             'Email': order.get('email', ''),
-            'Produits': '\n'.join([item['title'] +f"({item['quantity']}x{item['price']}{item['price_set']['shop_money']['currency_code']})" for item in order.get('line_items', [])])
+            'Produits': '\n'.join([item['title'] +f"({item['quantity']}x{item['price']}{item['price_set']['shop_money']['currency_code']})" for item in order.get('line_items', [])]),
+            'Inséré le':  datetime.datetime.strptime(order.get('created_at'), '%Y-%m-%dT%H:%M:%S%z').strftime("%Y-%m-%dT%H:%M:%S%z") if fake_insertion else datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
