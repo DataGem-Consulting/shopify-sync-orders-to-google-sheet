@@ -16,3 +16,5 @@ python-dotenv==1.0.0
 Flask
 flask-cors
 flask-jwt-extended
+
+gunicorn
