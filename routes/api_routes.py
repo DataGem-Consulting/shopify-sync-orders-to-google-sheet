@@ -40,7 +40,7 @@ def reset_all_sheets():
         print(f"Fetched {len(orders)} orders from Shopify")
         folderId = os.environ.get('DRIVE_FOLDER_ID')
         driveHandler.emptyFolder(folderId)
-
+        print(f"Folder {folderId} emptied successfully")
         classified_orders = {}
 
         for order in orders:
@@ -56,6 +56,7 @@ def reset_all_sheets():
             print(f"Creating sheet for month: {month} with {len(orders)} orders")
             sheet_id = driveHandler.createSheetInFolder(f"Commandes {month}", folderId)
             if not sheet_id:
+                traceback.print_exc()
                 return jsonify({"error": f"Failed to create sheet for month {month}"}), 500
             # Write orders to the Google Sheet
             orders_df = pd.DataFrame(orders)
@@ -85,10 +86,13 @@ def push_order():
         order_data = shopifyHandler.parse_order(order_data)
 
         if "Commandes " + month not in [file['name'] for file in files]:
+            print(f"Creating new sheet for month: {month}")
             sheet_id = driveHandler.createSheetInFolder(f"Commandes {month}", folderId)
             driveHandler.googleSheetHandler.append_to_sheet(sheet_id, order_data, is_first_row=True)
         else:
+            print(f"Appending to existing sheet for month: {month}")
             sheet_id = next(file['id'] for file in files if file['name'] == f"Commandes {month}")
+            print(f"Sheet ID: {sheet_id}")
 
             orders_in_sheet = driveHandler.googleSheetHandler.getSheetData(sheet_id, 'Sheet1!A1:Z1000')
             
@@ -97,10 +101,11 @@ def push_order():
                 driveHandler.googleSheetHandler.append_to_sheet(sheet_id, order_data, is_first_row=True)
                 return jsonify({"message": "Order pushed successfully"}), 200
             if any(order['N° commande'] == order_data['N° commande'] for order in orders_in_sheet.to_dict(orient='records')):
+                print("Order already exists in the sheet")
                 return jsonify({"message": "Order already exists in the sheet"}), 200
 
             driveHandler.googleSheetHandler.append_to_sheet(sheet_id, order_data)
-
+            print("Order pushed successfully")
         return jsonify({"message": "Order pushed successfully"}), 200
     except Exception as e:
         traceback.print_exc()
